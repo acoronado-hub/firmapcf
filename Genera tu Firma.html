@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<!-- origen en pcfactory.cl -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <p style="margin-top:20px; font-size:12px; color:#888; text-align:center; font-family:Arial;">
+  Modificado con ❤️ Adrian Coronado</p>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genera tu Firma - Perú</title>
+
+    <link rel="stylesheet" href="app.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="email.css">
+
+
+    <link rel="stylesheet" href="firma.css">
+    <link href="icon" rel="stylesheet">
+
+    <script type="text/javascript" src="jquery-3.2.1.min.js.descarga"></script>
+    <script type="text/javascript">
+      var SUC = new Array();//id suc, nombre suc, calle,numero,comuna, cod area
+      $(document).ready(function () {
+  // LIMA
+    SUC[0] = new Array(1,"Plaza San Miguel","Av. De la Marina 2000","","San Miguel - Lima",""); 
+    SUC[1] = new Array(2,"Jockey Plaza","Av. Javier Prado Este 4200","","Surco - Lima","");
+    SUC[2] = new Array(3,"Santa Anita","Carretera Central 111","","Santa Anita - Lima","");  
+    SUC[3] = new Array(4,"Comas","Av. Los Ángeles 602","","Comas - Lima",""); 
+    SUC[4] = new Array(5,"La Molina","Av. La Molina 2448","","La Molina - Lima",""); 
+    SUC[5] = new Array(6,"Megaplaza Independencia","Av. Alfredo Mendiola 3698","","Independencia - Lima",""); 
+    SUC[6] = new Array(7,"Puruchuco","Av. Nicolás Ayllón 4770","","Ate Vitarte - Lima",""); 
+    SUC[7] = new Array(8,"Bellavista","Av. Óscar R. Benavides 3866","","Callao - Lima","");
+    SUC[8] = new Array(9,"San Juan de Lurigancho","Av. Lurigancho 997","","San Juan De Lurigancho - Lima",""); 
+    SUC[9] = new Array(10,"Primavera","Av. Aviación 3596","","San Borja - Lima",""); 
+    SUC[10] = new Array(11,"Centro Civico","Av. Garcilaso de la Vega","","Cercado de Lima",""); 
+// PROVINCIAS
+    SUC[11] = new Array(12,"Iquitos","Av. José Abelardo Quiñones 1010","","Iquitos - Loreto",""); 
+    SUC[12] = new Array(13,"Arequipa (Cayma)","Av. Ejército 793","","Cayma - Arequipa","2"); 
+    SUC[13] = new Array(14,"Arequipa (Porongoche)","Av. Porongoche 500","","Porongoche - Arequipa",""); 
+    SUC[14] = new Array(15,"Chiclayo","Av. Panamericana 639","","Chiclayo - Lambayeque",""); 
+    SUC[15] = new Array(16,"Piura","Av. Sánchez Cerro 234","","Piura","");
+    SUC[16] = new Array(17,"Trujillo","Av. América Oeste 750","","Trujillo - La Libertad","");
+// B2B
+    SUC[17] = new Array(18,"Oficina","Av. Santo Toribio 143 - Piso 5","","San Isidro - Lima","");
+
+    genera_select();
+});
+
+        $("#check_eco").click(function () {
+          if ($("#check_eco").is(":checked")) {
+            $("#tr_eco").show();
+          } else {
+            $("#tr_eco").hide();
+          }
+        });
+        $("#check_banner").click(function () {
+          if ($("#check_banner").is(":checked")) {
+            $("#tr_banner").show();
+          } else {
+            $("#tr_banner").hide();
+          }
+        });
+
+      function soloNumeros(e){
+	    var key = window.Event ? e.which : e.keyCode
+	    return (key >= 48 && key <= 57 )
+      }
+
+      function genera_select() {
+        var txt = "<option value='-1' selected='selected'>---</option>";
+        for (i = 0; i < SUC.length; i++) {
+          txt += "<option value='" + i + "'>" + SUC[i][1] + "</option>";
+        }
+        $("#suc").html(txt);
+      }
+
+      function cambia_codarea() {
+  pos = $("#suc option:selected").val();
+  if (pos >= 0) {
+    $("#cod_area").empty();
+    $("#calle").empty();
+    $("#comuna").empty();
+    $("#calle").html(SUC[pos][2]);
+    $("#comuna").html(SUC[pos][4]); 
+    $("#cod_area").html(SUC[pos][6]);
+  }
+}
+
+      function carga_datos() {
+        error = "";
+
+        suc = $("#suc option:selected").val();
+
+        if (suc == "-1") {
+          error += "Seleccione Sucursal\n";
+        }
+
+        nombre = $.trim($("#pnombre").val());
+
+        if (nombre == "") {
+          error += " Ingrese Nombre\n";
+        } else {
+          nombre = toTitleCase(nombre);
+        }
+
+        paterno = $.trim($("#paterno").val());
+        if (paterno == "") {
+          error += " Ingrese Apellido Paterno\n";
+        } else {
+          paterno = toTitleCase(paterno);
+        }
+
+        materno = $.trim($("#materno").val());
+        if (materno == "") {
+          error += " Ingrese Apellido Materno\n";
+        } else {
+          materno = toTitleCase(materno.substring(0, 1)) + ".";
+        }
+
+        cargo = $.trim($("#cargo").val());
+        if (cargo == "") {
+          error += " Ingrese Cargo\n";
+        }
+
+        correo = $.trim($("#correo").val());
+
+        if (correo == "") {
+          error += " Ingrese E-Mail \n";
+        } else {
+          correo = correo.toLowerCase();
+          if (validarMail(correo) == false) {
+            error += " E-mail (No V\u00e1lido)\n";
+          }
+        }
+
+        celular = $.trim($("#celular").val());
+
+        if (error != "") {
+          alert(error);
+          return;
+        }
+
+        $("#cod_area").empty();
+        $("#calle").empty();
+        $("#comuna").empty();
+
+        $("#calle").html(SUC[suc][2]);
+        $("#comuna").html(SUC[suc][4]);
+        $("#cod_area").html(SUC[suc][5]);
+        $("#txt_nombre").html(nombre);
+        $("#txt_paterno").html(paterno);
+        $("#txt_materno").html(materno);
+        $("#txt_cargo").html(cargo);
+        $("#a_correo").html(correo);
+        $("#a_correo").attr("href", "mailto:" + correo);
+
+        celular = $.trim($("#celular").val());
+
+        if (celular == "") {
+          $("#txt_celular").empty();
+          $("#txt_celular").hide();
+        } else {
+          $("#txt_celular").html("Cel: +51 " + celular + "<br>");
+          $("#txt_celular").show();
+        }
+
+        if ($("#check_eco").is(":checked")) {
+          $("#tr_eco").show();
+        } else {
+          $("#tr_eco").hide();
+        }
+
+        if ($("#check_banner").is(":checked")) {
+          $("#tr_banner").show();
+        } else {
+          $("#tr_banner").hide();
+        }
+
+        $("#original").html($("#pie").html());
+
+        if (celular == "") {
+          $("#txt_celular").remove();
+        }
+
+        if (!$("#check_eco").is(":checked")) {
+          $("#tr_eco").remove();
+        }
+
+        if (!$("#check_banner").is(":checked")) {
+          $("#tr_banner").remove();
+        }
+
+        $("#codigo").html($("#pie").html());
+        $("#pie").html($("#original").html());
+
+        window.scrollTo(0,document.body.scrollHeight);
+      }
+
+      function validarMail(valor) {
+        var x = valor;
+        var atpos = x.indexOf("@");
+        var dotpos = x.lastIndexOf(".");
+        if (atpos < 1 || dotpos < atpos + 2 || dotpos + 2 >= x.length) {
+          return false;
+        }
+        return true;
+      }
+
+      function validarSiNumero(numero) {
+        if (!/^([0-9])*$/.test(numero)) {
+          return false;
+        } else {
+          return true;
+        }
+      }
+
+      function toTitleCase(str) {
+        return str.replace(/\w\S*/g, function (txt) {
+          return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        });
+      }
+
+      function copiarFirma() {
+        const firma = document.getElementById("firma");
+
+        const range = document.createRange();
+        range.selectNode(firma);
+
+        const selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+
+        try {
+          document.execCommand("copy");
+          alert("Firma copiada correctamente");
+        } catch (err) {
+          alert("No se pudo copiar la firma");
+        }
+
+        selection.removeAllRanges();
+      }
+
+    </script>
+  </head>
+  <body>
+    <div class="contenido-center background-gray">
+      <div class="page-indicator 2 container-md">
+        <div>
+          <div class="link link--bold color-gray-1">Generador Pie de Firma</div>
+        </div>
+      </div>
+<div class="container-md">
+  <div class="hero-image">
+    <a href="https://pie-de-firma.pcfactory.com.pe/#" class="hero-image__link"></a>
+    <div class="hero-image__image">
+      <img src="header_pie_de_firma.png">
+    </div>
+  </div>
+</div>
+      <div class="container-md">
+        <div class="">
+          <div class="form-container form-container--padded-v">
+            <div class="mb-2">
+              <div class="title-md title-md--normal mb-1">
+                Genera tu <strong>firma</strong>
+              </div>
+            </div>
+            <form class="form" id="" name="" rel="" target="_blank">
+              <div class="form-fields">
+                <div class="select-group">
+                  <label for="" class="link link--bold">* Tienda</label>
+                  <select id="suc" onchange="javascript:cambia_codarea();">
+                  	<option value="-1" selected="selected">---</option>
+                  	<option value="0">Plaza San Miguel</option>
+                  	<option value="1">Jockey Plaza</option>
+                  	<option value="2">Santa Anita</option>
+                  	<option value="3">Comas</option>
+                  	<option value="4">La Molina</option>
+                  	<option value="5">MegaPlaza Independencia</option>
+                  	<option value="6">Iquitos</option>
+                  	<option value="7">Puruchuco</option>
+                  	<option value="8">Bellavista</option>
+                  	<option value="9">San Juan de Lurigancho</option>
+                  	<option value="10">Primavera</option>
+                  	<option value="11">Centro Civico</option>
+                  	<option value="12">Arequipa (Cayma)</option>
+                  	<option value="13">Chiclayo</option>
+                  	<option value="14">Piura</option>
+                  	<option value="15">Arequipa (Porongoche)</option>
+                  	<option value="16">Trujillo</option>
+                  	<option value="17">Oficina</option></select>
+                </div>
+                <div class="mc-field-group">
+                  <label for="" class="link link--bold">* Primer Nombre</label>
+                  <input id="pnombre" name="p_nombre" type="text">
+                </div>
+                
+                <div class="mc-field-group">
+                  <label for="" class="link link--bold">* Apellido Paterno</label>
+                  <input id="paterno" name="paterno" type="text">
+                </div>
+
+                <div class="mc-field-group">
+                  <label for="" class="link link--bold">* Apellido Materno</label>
+                  <input id="materno" name="materno" type="text">
+                </div>
+                
+                <div class="mc-field-group">
+                  <label for="" class="link link--bold">* Cargo</label>
+                  <input id="cargo" name="cargo" type="text">
+                </div>
+
+                <div class="mc-field-group">
+                  <label for="" class="link link--bold">* Email</label>
+                  <input id="correo" name="correo" type="text">
+                </div>
+
+                <div class="mc-field-group">
+                  <label for="" class="link link--bold">* Telefono</label>
+                  <input type="text" id="celular" name="celular" maxlength="9" onkeypress="return soloNumeros(event)">
+                </div>
+                 
+                </div>
+                  <input class="submit-button button-bg" type="button" value="Generar Pie de Firma" onclick="javascript:carga_datos();">
+                  <input class="submit-button button-bg" type="button" value="Copiar Firma" onclick="copiarFirma();">
+
+                </form></div>
+                <center><input class="submit-button button-bg" type="button" value="Resultado:"></center><br>
+                
+
+              <div id="firma" style="background-color: white; padding: 30px 50px;">
+
+                <div>
+                  <div>
+                    <div>
+                    </div>
+
+                    <div style="display: flex;">
+                    <div valign="top">
+                    <img src="https://static.pcfactory.cl/mail/email.png?x=%3C?=md5(time())?%3E" alt="" width="100" height="100" />
+                     </div>
+                    
+                    <div class="lineheight" valign="top" style="margin-left: 15px;">
+                        <strong id="txt_nombre" class="mail_nombre">Nombre - </strong>
+                        <span id="txt_paterno" class="mail_apellidos">Apepat - </span>
+                        <span id="txt_materno" class="mail_apellidos">Apemat</span><br>
+                      <span id="txt_cargo" class="mail_cargo">Cargo</span><br>
+                      <a id="a_correo" href="mailto:XXXXXX@pcfactory.com.pe" target="_blank" class="mail_user_link">correo@pcfactory.com.pe</a>
+                      <div style="height:2px; line-height:0px; margin:0px;">&nbsp;</div>
+                      </span>
+                      <span id="txt_celular" class="mail_telefono">Cel: +51 123456789<br>
+                      </span>
+                      <span id="calle" class="mail_sucursal">Dirección</span><br><span id="comuna" class="mail_sucursal">Distrito - Departamento</span><br>
+                    <a href="http://www.pcfactory.com.pe/" target="_blank" class="mail_www_link">www.pcfactory.com.pe<br>
+                    </a> 
+                  </div>
+                </div>
+
+                   </div>
+                    
+                    <div valign="top">
+                            <br>
+                            <img src="https://lh7-rt.googleusercontent.com/docsz/AD_4nXdJGTC6TtObayF31KUbg_OgSVBiEDpeAul81uEk7XqD0oWotddf6rzMVKDycoJw9v8K9cUqOtiJd7ref5IexFj1mCytznQfPyOqCyV0Qb3A4rZYzxgBN4FFpgjsM1ZYKgbhtQZSTL7SbKlUsLpx1w?key=Nxq3Fx7Bdqgtt8qkEmf6zA" alt="">
+                            <span class="mail_sucursal">Por favor considere el medio ambiente antes de imprimir este Email</span><br>
+                     </div>
+                  </div>
+                  
+                    <div valign="top" style="margin: 15px 0;">
+                        <a href="https://www.pcfactory.com.pe/" target="_blank"><img src="https://lh7-rt.googleusercontent.com/docsz/AD_4nXcmY8NdGKSlqR05lmee8ZGpTiGBgilmtrdLyk7mxqp94S8hgeZA560gC8iMln1camxZWDUMWY_ZSYZd8_S8TVaHLMxFNOOHtDqliUEQzLv1QaajELKwQeM75C7_EPyrfdeErRV3A5ztbAzSgmUKIw?key=Nxq3Fx7Bdqgtt8qkEmf6zA" width="455" height="121" alt=""></a>
+    
+                     </div>
+                  </div>
+                </div>
+                <div id="original" style="display:none;"></div>
+            
+              </div>
+
+              </div>
+            
+          </div>
+        
+      
+    
+  
+
+</body></html>

@@ -1,0 +1,86 @@
+/*-----------------------------------------------------------
+	FAVOR NO BORRAR - Esto sirve para pie de firma en mails PC Factory (intranet)
+-----------------------------------------------------------*/
+.lineheight {
+  line-height: 14px;
+}
+
+.hr {
+  border: 0px;
+  margin: 2px;
+  height: 0px;
+}
+
+.mail_nombre {
+  font-family: Tahoma, Geneva, sans-serif;
+  font-size: 16px;
+  color: #00d879;
+  line-height: 13px;
+  font-weight: 900;
+}
+
+.mail_apellidos {
+  font-family: Tahoma, Geneva, sans-serif;
+  font-size: 16px;
+  color: #00d879;
+  line-height: 13px;
+  font-weight: 900;
+}
+
+.mail_cargo {
+  font-family: Tahoma, Geneva, sans-serif;
+  font-size: 13px;
+  color: #000000;
+  line-height: 16px;
+  font-weight: 800;
+}
+
+.mail_user_link {
+  font-family: Tahoma, Geneva, sans-serif;
+  font-size: 13px;
+  color: #00d879;
+  text-decoration: none;
+  line-height: 16px;
+}
+
+.mail_user_link:hover {
+  font-family: Tahoma, Geneva, sans-serif;
+  font-size: 13px;
+  color: #7a7a7a;
+  text-decoration: none;
+  line-height: 16px;
+}
+
+/*-----------------------------------------------------------
+	datos de Sucursal
+-----------------------------------------------------------*/
+
+.mail_telefono {
+  font-family: Tahoma, Geneva, sans-serif;
+  font-size: 12px;
+  color: #7a7a7a;
+  line-height: 13px;
+}
+
+.mail_sucursal {
+  font-family: Tahoma, Geneva, sans-serif;
+  font-size: 12px;
+  color: #7a7a7a;
+  line-height: 13px;
+}
+
+.mail_www_link {
+  font-family: Tahoma, Geneva, sans-serif;
+  font-size: 12px;
+  color: #00d879;
+  text-decoration: none;
+  line-height: 13px;
+}
+
+.mail_www_link:hover {
+  font-family: Tahoma, Geneva, sans-serif;
+  font-size: 10px;
+  color: #7a7a7a;
+  text-decoration: none;
+  line-height: 13px;
+}
